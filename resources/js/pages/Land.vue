@@ -12,12 +12,12 @@
 
         <h4 class="font-medium font-semibold text-lg block mt-4 text-gray-800">9087 Gottlieb Row Apt. 389</h4>
         <div>
-            <font-awesome-icon icon="star" />
-            <font-awesome-icon icon="star" />
-            <font-awesome-icon icon="star" />
-            <font-awesome-icon icon="star" />
-            <font-awesome-icon icon="star" />
-            <p>5.0 (16 reviews)</p>
+            <font-awesome-icon icon="star" class="text-yellow-500"  />
+            <font-awesome-icon icon="star" class="text-yellow-500" />
+            <font-awesome-icon icon="star" class="text-yellow-500" />
+            <font-awesome-icon icon="star" class="text-yellow-500" />
+            <font-awesome-icon icon="star" class="text-yellow-500" />
+            <p class="text-gray-800">5.0 (16 reviews)</p>
         </div>
 
         <h4 class="font-medium text-md block mt-4 text-gray-800">It Includes: </h4>

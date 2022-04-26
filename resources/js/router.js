@@ -36,10 +36,10 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    // scrollBehavior() {
-    //     // When Router Link is Clicked, always scroll the new page on the top of page
-    //     document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
-    // }
+    scrollBehavior() {
+        // When Router Link is Clicked, always scroll the new page on the top of page
+        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
 });
 
 export default router;

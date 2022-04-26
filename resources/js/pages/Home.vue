@@ -49,8 +49,6 @@
 </template>
 <script>
 
-
-
     import Slider from "../components/Slider";
     export default {
         name: "Home",
@@ -67,7 +65,7 @@
                 ],
 
             }
-        },
+        }
     }
 </script>
 <style scoped>
