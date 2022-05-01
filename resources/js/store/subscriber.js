@@ -2,8 +2,6 @@ import store from './index.js'
 
 // After commit this store.subscribe will run
 store.subscribe((mutation) => {
-
-    console.log(mutation)
     switch (mutation.type) {
         case 'SET_TOKEN':
             if(mutation.payload) {

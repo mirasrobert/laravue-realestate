@@ -34834,15 +34834,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_Navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Navbar */ "./resources/js/components/Navbar.vue");
-/* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Footer */ "./resources/js/components/Footer.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./resources/js/router.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -34856,9 +34854,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['login'])), {}, {
+  computed: _objectSpread({}, vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters.authenticated),
+  created: function created() {
+    if (this.$store.getters.authenticated) {
+      _router__WEBPACK_IMPORTED_MODULE_0__["default"].push('/');
+    }
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['login'])), {}, {
     onSubmit: function onSubmit() {
-      this.login(this.form);
+      this.login({
+        formData: this.form,
+        router: _router__WEBPACK_IMPORTED_MODULE_0__["default"]
+      });
+      this.form.password = '';
     }
   })
 });
@@ -34967,7 +34975,7 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "antialiased bg-gray-100 dark-mode:bg-gray-900"
+  "class": "antialiased bg-white dark-mode:bg-gray-900"
 };
 var _hoisted_3 = {
   "class": "w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800"
@@ -36010,7 +36018,7 @@ var getters = {
 }; // Actions are when you are creating API calls and committing Mutations
 
 var actions = {
-  login: function login(_ref, formData) {
+  login: function login(_ref, data) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var dispatch, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -36019,12 +36027,18 @@ var actions = {
             case 0:
               dispatch = _ref.dispatch;
               _context.next = 3;
-              return axios.post('/api/auth/login', formData);
+              return axios.post('/api/auth/login', data.formData);
 
             case 3:
               response = _context.sent;
+
               // Login that returns a token
-              dispatch('attempt', response.data.token);
+              try {
+                dispatch('attempt', response.data.token);
+                data.router.push('/'); // Redirect When Success Login
+              } catch (e) {
+                console.error('Forbidden: Invalid Credentials');
+              }
 
             case 5:
             case "end":
@@ -36122,8 +36136,6 @@ __webpack_require__.r(__webpack_exports__);
  // After commit this store.subscribe will run
 
 _index_js__WEBPACK_IMPORTED_MODULE_0__["default"].subscribe(function (mutation) {
-  console.log(mutation);
-
   switch (mutation.type) {
     case 'SET_TOKEN':
       if (mutation.payload) {

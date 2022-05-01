@@ -167,9 +167,8 @@
 </template>
 
 <script>
-    import Navbar from "../components/Navbar";
-    import Footer from "../components/Footer";
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
+    import router from "../router";
 
     export default {
         name: "Login",
@@ -183,11 +182,25 @@
             }
         },
 
+        computed: {
+            ...mapGetters['authenticated']
+        },
+
+        created() {
+            if(this.$store.getters.authenticated) {
+                router.push('/')
+            }
+        },
+
         methods: {
             ...mapActions(['login']),
 
             onSubmit() {
-                this.login(this.form)
+                this.login({
+                    formData: this.form,
+                    router: router
+                })
+                this.form.password = ''
             }
         }
 

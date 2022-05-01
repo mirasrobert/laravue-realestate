@@ -19,10 +19,15 @@ const getters = {
 
 // Actions are when you are creating API calls and committing Mutations
 const actions = {
-    async login({dispatch}, formData) {
-        const response = await axios.post('/api/auth/login', formData); // Login that returns a token
+    async login({dispatch}, data) {
+        const response = await axios.post('/api/auth/login', data.formData); // Login that returns a token
 
-        dispatch('attempt', response.data.token)
+        try {
+            dispatch('attempt', response.data.token)
+            data.router.push('/'); // Redirect When Success Login
+        } catch (e) {
+            console.error('Forbidden: Invalid Credentials')
+        }
 
     },
 
