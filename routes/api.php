@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\MeController;
 use App\Http\Controllers\Auth\RegisterController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\RentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +32,13 @@ Route::group( [
     Route::post('/logout', LogoutController::class);
     Route::get('/me', MeController::class);
 
+});
+
+
+Route::group([
+    'middleware' => 'auth',
+], function () {
+    Route::apiResource('rents', RentController::class);
 });
 
 

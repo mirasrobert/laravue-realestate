@@ -91,4 +91,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class);
+    }
+
+
 }
