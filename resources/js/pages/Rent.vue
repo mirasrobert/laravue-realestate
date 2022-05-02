@@ -4,7 +4,7 @@
         <section class="pt-5 pb-5">
             <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
                 <div v-for="(item, index) in images" :key="index">
-                    <RentCard :item="item" />
+                    <rent-card :item="item" />
                 </div>
             </div>
         </section>
@@ -12,29 +12,29 @@
 </template>
 
 <script>
-    import RentCard from "../components/RentCard";
-    export default {
-        name: "Rent",
-        components: {RentCard},
-        data() {
-            return {
-                images: [
-                    'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/2001944/pexels-photo-2001944.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                ],
-            }
-        }
-    }
+import RentCard from "../components/RentCard.vue";
+export default {
+    name: "Rent",
+    components: { RentCard },
+    data() {
+        return {
+            images: [
+                "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "https://images.pexels.com/photos/2001944/pexels-photo-2001944.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            ],
+        };
+    },
+};
 </script>
 
 <style scoped>
-    .img-thumbnail {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        max-height: 180px;
-    }
+.img-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    max-height: 180px;
+}
 </style>

@@ -4,6 +4,7 @@ import Login from "./pages/Login.vue"
 import About from "./pages/About";
 import Rent from "./pages/Rent";
 import Land from "./pages/Land";
+import Profile from "./pages/Profile";
 
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: "/rents/id",
         name: "Land",
         component: Land,
+    },
+    {
+        path: "/profiles",
+        name: "Profile",
+        component: Profile,
     },
 ];
 
