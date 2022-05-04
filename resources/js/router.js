@@ -1,6 +1,6 @@
-import {createWebHistory, createRouter} from "vue-router";
-import Home from "./pages/Home.vue"
-import Login from "./pages/Login.vue"
+import { createWebHistory, createRouter } from "vue-router";
+import Home from "./pages/Home.vue";
+import Login from "./pages/Login.vue";
 import About from "./pages/About";
 import Rent from "./pages/Rent";
 import Land from "./pages/Land";
@@ -28,7 +28,7 @@ const routes = [
         component: Rent,
     },
     {
-        path: "/rents/id",
+        path: "/rents/:id",
         name: "Land",
         component: Land,
     },
@@ -44,8 +44,8 @@ const router = createRouter({
     routes,
     scrollBehavior() {
         // When Router Link is Clicked, always scroll the new page on the top of page
-        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
-    }
+        document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+    },
 });
 
 export default router;

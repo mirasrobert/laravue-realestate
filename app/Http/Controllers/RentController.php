@@ -43,11 +43,13 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        $rent = Rent::find($id);
+        $rent = Rent::with('images')->find($id);
         if(!$rent) {
             return response()->json(['message' => 'Rent not found'], 404);
         }
-        return new RentResource($rent);
+
+        return $rent;
+        //return new RentResource($rent);
     }
     
 

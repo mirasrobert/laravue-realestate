@@ -44,11 +44,11 @@
 
         <div class="my-6">
             <h5 class="block font-semibold text-2xl mb-5">Sale Listings</h5>
-            <div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 lg:grid-cols-4">
+            <!-- <div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 lg:grid-cols-4">
                 <div v-for="(item, index) in images" :key="index">
                     <rent-card :item="item" />
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

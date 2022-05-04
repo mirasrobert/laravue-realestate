@@ -1,10 +1,17 @@
 <template>
-    <div class="container mx-auto p-4 mt-8">
+    <div
+        v-if="isLoading"
+        class="flex items-center justify-center min-h-screen w-full"
+    >
+        <pulse-loader color="#4338CA" size="30px"></pulse-loader>
+    </div>
+    <div v-else-if="error">An error has occured</div>
+    <div v-else class="container mx-auto p-4 mt-8">
         <h5 class="block font-semibold text-2xl mb-3">Places for rent</h5>
         <section class="pt-5 pb-5">
             <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
-                <div v-for="(item, index) in images" :key="index">
-                    <rent-card :item="item" />
+                <div v-for="data in data.data.data" :key="data.id">
+                    <rent-card :rent="data" />
                 </div>
             </div>
         </section>
@@ -12,19 +19,28 @@
 </template>
 
 <script>
+import { useQuery } from "vue-query";
 import RentCard from "../components/RentCard.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+
+async function fetchRents() {
+    return await axios.get("/api/rents");
+}
+
 export default {
     name: "Rent",
-    components: { RentCard },
-    data() {
+    components: { RentCard, PulseLoader },
+    setup() {
+        const { error, data, isLoading, isFetching } = useQuery(
+            "rents",
+            fetchRents
+        );
+
         return {
-            images: [
-                "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                "https://images.pexels.com/photos/2001944/pexels-photo-2001944.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            ],
+            error,
+            data,
+            isLoading,
+            isFetching,
         };
     },
 };

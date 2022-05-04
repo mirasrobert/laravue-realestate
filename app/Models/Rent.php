@@ -15,4 +15,12 @@ class Rent extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+     /**
+     * Get the rent's images.
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }
