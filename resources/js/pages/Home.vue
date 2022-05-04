@@ -9,8 +9,10 @@
         <error-message :error="error" />
     </div>
     <template v-else>
-        <div class="container mx-auto px-4">
-            <Slider :images="data.map((rent) => rent.images[0])" />
+        <div v-if="data.map((rent) => rent.images).length > 0">
+            <div class="container mx-auto px-4">
+                <Slider :images="data.map((rent) => rent.images[0])" />
+            </div>
         </div>
 
         <div class="container mx-auto p-4 mt-8">
