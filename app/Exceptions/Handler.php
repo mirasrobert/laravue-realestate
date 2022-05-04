@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +46,18 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // Custom Error Handler For Route Model Binding (Eloquent) and FindORFail()
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Object not found.',
+                    'status' => 404,
+                    'exception_message' => env('APP_ENV') === 'production' ? null : $e->getMessage(),
+                    'exception_class' => env('APP_ENV') === 'production' ? null : get_class($e),
+                ], 404);
+            }
         });
     }
 }

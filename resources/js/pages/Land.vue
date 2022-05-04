@@ -5,7 +5,9 @@
     >
         <pulse-loader color="#4338CA" size="30px"></pulse-loader>
     </div>
-    <div v-else-if="error">An error has occured</div>
+    <div v-else-if="error">
+        <error-message :error="error" />
+    </div>
     <template v-else>
         <div class="w-full m-0 p-0">
             <Slider :images="data.images" />
@@ -38,12 +40,16 @@
                 {{ data.location }}
             </h4>
             <div>
-                <font-awesome-icon icon="star" class="text-yellow-500" />
-                <font-awesome-icon icon="star" class="text-yellow-500" />
-                <font-awesome-icon icon="star" class="text-yellow-500" />
-                <font-awesome-icon icon="star" class="text-yellow-500" />
-                <font-awesome-icon icon="star" class="text-yellow-500" />
-                <p class="text-gray-800">5.0 (16 reviews)</p>
+                <star-rating :rating="data.reviews_avg_rating" />
+                <p class="text-gray-800">
+                    {{
+                        data.reviews_avg_rating &&
+                        parseFloat(data.reviews_avg_rating).toFixed(1)
+                            ? parseFloat(data.reviews_avg_rating).toFixed(1)
+                            : 0
+                    }}
+                    ({{ data.reviews.length }} reviews)
+                </p>
             </div>
 
             <h4 class="font-medium text-md block mt-4 text-gray-800">
@@ -84,15 +90,11 @@
 
             <div class="mb-4">
                 <h5 class="block font-semibold text-2xl text-gray-800 mb-3">
-                    Property Ratings at Elevate
+                    Property Ratings at {{ data.title }}
                 </h5>
-                <p class="font-sm text-gray-800 mb-4">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Blanditiis delectus deserunt est impedit nihil officia
-                    quisquam sed sequi sunt tempora! A architecto, dolore
-                    exercitationem facilis labore minima perferendis rem
-                    voluptas!
-                </p>
+                <!-- <p class="font-sm text-gray-800 mb-4">
+                    
+                </p> -->
             </div>
 
             <div>
@@ -105,12 +107,29 @@
                                 <p
                                     class="text-emerald-500 font-base text-3xl font-semibold"
                                 >
-                                    5.0
+                                    {{
+                                        data.reviews_avg_rating &&
+                                        parseFloat(
+                                            data.reviews_avg_rating
+                                        ).toFixed(1)
+                                    }}
                                 </p>
                                 <p
                                     class="text-emerald-500 font-base text-2xl font-semibold"
                                 >
-                                    Excellent
+                                    {{
+                                        data.reviews_avg_rating &&
+                                        parseFloat(
+                                            data.reviews_avg_rating
+                                        ).toFixed(1) >= 4.5
+                                            ? "Excellent"
+                                            : data.reviews_avg_rating &&
+                                              parseFloat(
+                                                  data.reviews_avg_rating
+                                              ).toFixed(1) >= 3.5
+                                            ? "Good"
+                                            : "No Reviews"
+                                    }}
                                 </p>
                             </div>
                             <div class="bg-emerald-600 w-full">
@@ -124,39 +143,37 @@
                     >
                         <div>
                             <div>
-                                <font-awesome-icon
-                                    icon="star"
-                                    class="text-yellow-500"
-                                />
-                                <font-awesome-icon
-                                    icon="star"
-                                    class="text-yellow-500"
-                                />
-                                <font-awesome-icon
-                                    icon="star"
-                                    class="text-yellow-500"
-                                />
-                                <font-awesome-icon
-                                    icon="star"
-                                    class="text-yellow-500"
-                                />
-                                <font-awesome-icon
-                                    icon="star"
-                                    class="text-yellow-500"
-                                />
+                                <div v-if="data.reviews_avg_rating">
+                                    <star-rating
+                                        :rating="
+                                            parseFloat(data.reviews_avg_rating)
+                                        "
+                                    />
+                                </div>
+                                <div v-else>
+                                    <star-rating :rating="0" />
+                                </div>
                             </div>
                             <h5 class="font-semibold text-gray-800">
-                                5.0 Blended Score
+                                {{
+                                    data.reviews_avg_rating &&
+                                    parseFloat(data.reviews_avg_rating).toFixed(
+                                        1
+                                    )
+                                }}
+                                Blended Score
                             </h5>
-                            <p class="text-sm text-gray-800">16 Reviews</p>
+                            <p class="text-sm text-gray-800">
+                                {{ data.reviews.length }} Reviews
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <div class="grid grio-cols-1 md:grid-cols-2 gap-3">
-                    <ReviewCard />
-                    <ReviewCard />
-                    <ReviewCard />
+                    <div v-for="review in data.reviews" :key="review.id">
+                        <review-card :review="review" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -167,28 +184,26 @@
 import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
 import Slider from "../components/Slider";
-import ReviewCard from "../components/ReviewCard";
+import ReviewCard from "../components/ReviewCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-
-async function fetchRent(id) {
-    const { data } = await axios.get("/api/rents/" + id);
-
-    return data;
-}
+import ErrorMessage from "../components/ErrorMessage.vue";
+import StarRating from "../components/StarRating.vue";
+import { fetchRent } from "../services/rentService";
 
 export default {
     name: "Land",
-    components: { ReviewCard, Slider, PulseLoader },
+    components: { ReviewCard, Slider, PulseLoader, ErrorMessage, StarRating },
     setup() {
         const route = useRoute();
         const id = parseInt(route.params.id); // read parameter id (it is reactive)
 
         const { error, data, isLoading, isFetching } = useQuery(
             ["rent", id],
-            () => fetchRent(id)
+            () => fetchRent(id),
+            {
+                retry: 1,
+            }
         );
-
-        console.log(id);
 
         return {
             error,

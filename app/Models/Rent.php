@@ -23,4 +23,11 @@ class Rent extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    /**
+     * Get the rent's reviews.
+     */
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
 }

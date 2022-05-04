@@ -21,11 +21,12 @@ import {
     faBath,
     faDoorOpen,
     faStar,
+    faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons"; // Free Icons
 import { fab } from "@fortawesome/free-brands-svg-icons"; // Free Brand Icons
 
 // Add
-library.add(faBed, faBath, faDoorOpen, faStar);
+library.add(faBed, faBath, faDoorOpen, faStar, faStarHalfStroke);
 
 import AppRoot from "./AppRoot";
 

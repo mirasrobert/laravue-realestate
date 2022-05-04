@@ -26,19 +26,14 @@ Route::group( [
     'prefix'  => 'auth',
     'namespace' => "App\Http\Controllers\Auth\\"
 ], function () {
-
     Route::post('/login', LoginController::class);
     Route::post('/register', RegisterController::class);
     Route::post('/logout', LogoutController::class);
     Route::get('/me', MeController::class);
-
 });
 
 
-Route::group([
-    'middleware' => 'auth',
-], function () {
-    Route::apiResource('rents', RentController::class);
-});
+
+Route::apiResource('rents', RentController::class);
 
 

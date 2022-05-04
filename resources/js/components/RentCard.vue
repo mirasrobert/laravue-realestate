@@ -1,11 +1,7 @@
 <template>
     <div class="w-full shadow-md mb-6 md:mb-0">
         <div class="bg-white rounded-lg overflow-hidden mb-10">
-            <img
-                src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-                alt="image"
-                class="img-thumbnail"
-            />
+            <img :src="rent.images[0].url" alt="image" class="img-thumbnail" />
             <div class="mt-2 px-8 sm:px-9 md:px-7 xl:px-9 text-center">
                 <h3
                     class="font-semibold text-dark text-md block hover:text-primary"

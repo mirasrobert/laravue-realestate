@@ -92,9 +92,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    // Get user's sale rents
     public function rents()
     {
         return $this->hasMany(Rent::class);
+    }
+
+    // Get user's reviews
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
 

@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRentRequest;
-use App\Models\Rent;
 use Illuminate\Http\Request;
-use App\Http\Resources\RentResource;
 
-class RentController extends Controller
+class ReviewController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +13,7 @@ class RentController extends Controller
      */
     public function index()
     {
-        return Rent::with('images')->latest()->get();
+        //
     }
 
     /**
@@ -26,9 +22,9 @@ class RentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRentRequest $request)
+    public function store(Request $request)
     {
-        return auth()->user()->rents()->create($request->validated());
+        //
     }
 
     /**
@@ -39,14 +35,8 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        return Rent::with(['images', 'reviews.user' => function ($query) {
-            $query->select('id', 'name')
-                ->orderBy('created_at', 'desc');
-        }])
-        ->withAvg('reviews', 'rating')
-        ->findOrFail($id);
+        //
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -55,10 +45,9 @@ class RentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRentRequest $request, Rent $rent)
+    public function update(Request $request, $id)
     {
-        $rent->update($request->validated());
-        return new RentResource($rent);
+        //
     }
 
     /**
@@ -67,9 +56,8 @@ class RentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rent $rent)
+    public function destroy($id)
     {
-        $rent->delete();
-        return response()->json(['message' => 'Rent deleted'], 200);
+        //
     }
 }
