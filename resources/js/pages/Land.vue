@@ -42,12 +42,7 @@
             <div>
                 <star-rating :rating="data.reviews_avg_rating" />
                 <p class="text-gray-800">
-                    {{
-                        data.reviews_avg_rating &&
-                        parseFloat(data.reviews_avg_rating).toFixed(1)
-                            ? parseFloat(data.reviews_avg_rating).toFixed(1)
-                            : 0
-                    }}
+                    {{ data.reviews_avg_rating }}
                     ({{ data.reviews.length }} reviews)
                 </p>
             </div>
@@ -107,26 +102,17 @@
                                 <p
                                     class="text-emerald-500 font-base text-3xl font-semibold"
                                 >
-                                    {{
-                                        data.reviews_avg_rating &&
-                                        parseFloat(
-                                            data.reviews_avg_rating
-                                        ).toFixed(1)
-                                    }}
+                                    {{ data.reviews_avg_rating }}
                                 </p>
                                 <p
                                     class="text-emerald-500 font-base text-2xl font-semibold"
                                 >
                                     {{
                                         data.reviews_avg_rating &&
-                                        parseFloat(
-                                            data.reviews_avg_rating
-                                        ).toFixed(1) >= 4.5
+                                        data.reviews_avg_rating >= 4.5
                                             ? "Excellent"
                                             : data.reviews_avg_rating &&
-                                              parseFloat(
-                                                  data.reviews_avg_rating
-                                              ).toFixed(1) >= 3.5
+                                              data.reviews_avg_rating >= 3.5
                                             ? "Good"
                                             : "No Reviews"
                                     }}
@@ -145,9 +131,7 @@
                             <div>
                                 <div v-if="data.reviews_avg_rating">
                                     <star-rating
-                                        :rating="
-                                            parseFloat(data.reviews_avg_rating)
-                                        "
+                                        :rating="data.reviews_avg_rating"
                                     />
                                 </div>
                                 <div v-else>
@@ -155,13 +139,14 @@
                                 </div>
                             </div>
                             <h5 class="font-semibold text-gray-800">
+                                {{ data.reviews_avg_rating }}
                                 {{
-                                    data.reviews_avg_rating &&
-                                    parseFloat(data.reviews_avg_rating).toFixed(
-                                        1
-                                    )
+                                    data.reviews_avg_rating == 5.0 ||
+                                    data.reviews_avg_rating == 5
+                                        ? "Perfect"
+                                        : "Blended"
                                 }}
-                                Blended Score
+                                Score
                             </h5>
                             <p class="text-sm text-gray-800">
                                 {{ data.reviews.length }} Reviews

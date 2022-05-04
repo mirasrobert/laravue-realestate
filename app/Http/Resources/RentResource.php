@@ -24,9 +24,9 @@ class RentResource extends JsonResource
             'price' => $this->price,
             'discount' => $this->discount,
             'is_sold' => $this->is_sold,
+            'reviews_avg_rating' => !$this->reviews_avg_rating ? 0 : floatval($this->reviews_avg_rating),
             'images' => ImageResource::collection($this->images),
             'reviews' => ReviewResource::collection($this->reviews),
-            
         ];
     }
 }

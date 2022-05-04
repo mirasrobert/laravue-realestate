@@ -35901,7 +35901,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rating: $setup.data.reviews_avg_rating
   }, null, 8
   /* PROPS */
-  , ["rating"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating && parseFloat($setup.data.reviews_avg_rating).toFixed(1) ? parseFloat($setup.data.reviews_avg_rating).toFixed(1) : 0) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews.length) + " reviews) ", 1
+  , ["rating"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews.length) + " reviews) ", 1
   /* TEXT */
   )]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.features.split(','), function (feature, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -35917,17 +35917,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_20, " Property Ratings at " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"font-sm text-gray-800 mb-4\">\n                    \n                </p> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating && parseFloat($setup.data.reviews_avg_rating).toFixed(1)), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"font-sm text-gray-800 mb-4\">\n                    \n                </p> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating && parseFloat($setup.data.reviews_avg_rating).toFixed(1) >= 4.5 ? "Excellent" : $setup.data.reviews_avg_rating && parseFloat($setup.data.reviews_avg_rating).toFixed(1) >= 3.5 ? "Good" : "No Reviews"), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating && $setup.data.reviews_avg_rating >= 4.5 ? "Excellent" : $setup.data.reviews_avg_rating && $setup.data.reviews_avg_rating >= 3.5 ? "Good" : "No Reviews"), 1
   /* TEXT */
   )]), _hoisted_27])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$setup.data.reviews_avg_rating ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_star_rating, {
-    rating: parseFloat($setup.data.reviews_avg_rating)
+    rating: $setup.data.reviews_avg_rating
   }, null, 8
   /* PROPS */
   , ["rating"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_star_rating, {
     rating: 0
-  })]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating && parseFloat($setup.data.reviews_avg_rating).toFixed(1)) + " Blended Score ", 1
+  })]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews_avg_rating == 5.0 || $setup.data.reviews_avg_rating == 5 ? "Perfect" : "Blended") + " Score ", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.reviews.length) + " Reviews ", 1
   /* TEXT */
