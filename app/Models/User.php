@@ -104,5 +104,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Review::class);
     }
 
+    // User has profile
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
 
 }

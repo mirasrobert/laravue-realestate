@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\MeController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,8 @@ Route::group( [
 });
 
 
-
+Route::get('/rents/users/{user_id}', [RentController::class, 'userRents']);
 Route::apiResource('rents', RentController::class);
+Route::apiResource('profiles', ProfileController::class);
 
 

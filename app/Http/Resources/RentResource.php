@@ -24,6 +24,9 @@ class RentResource extends JsonResource
             'price' => $this->price,
             'discount' => $this->discount,
             'is_sold' => $this->is_sold,
+            'images' => ImageResource::collection($this->images),
+            'reviews' => ReviewResource::collection($this->reviews),
+            
         ];
     }
 }

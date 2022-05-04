@@ -33,7 +33,7 @@ const routes = [
         component: Land,
     },
     {
-        path: "/profiles",
+        path: "/profiles/:id",
         name: "Profile",
         component: Profile,
     },

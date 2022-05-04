@@ -7,5 +7,5 @@ export const fetchRents = async () => {
 // Get single rent
 export const fetchRent = async (id) => {
     const { data } = await axios.get(`/api/rents/${id}`);
-    return data;
+    return data.data;
 };

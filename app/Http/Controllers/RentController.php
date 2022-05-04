@@ -39,14 +39,34 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        return Rent::with(['images', 'reviews.user' => function ($query) {
+        $rent = Rent::with(['images', 'reviews.user' => function ($query) {
             $query->select('id', 'name')
                 ->orderBy('created_at', 'desc');
         }])
         ->withAvg('reviews', 'rating')
         ->findOrFail($id);
+
+        return new RentResource($rent);
     }
-    
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $user_id
+     * @return \App\Http\Resources\RentResource;
+     */
+    public function userRents($user_id) {
+        $rents = Rent::with(['images' => function ($query) {
+            $query->select('id', 'imageable_type', 'imageable_id', 'url')
+                ->orderBy('created_at', 'desc');
+        }])
+        ->where('user_id', $user_id)
+        ->latest()
+        ->get();
+
+        return $rents;
+    }
 
     /**
      * Update the specified resource in storage.

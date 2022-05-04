@@ -1,5 +1,5 @@
 <template>
-    <Carousel :autoplay="3000" :breapoints="breakpoints" :wrap-around="true">
+    <Carousel :autoplay="3000" :breapoints="breakpoints" wrap-around="true">
         <Slide v-for="(img, index) in images" :key="index">
             <div class="carousel__item">
                 <img
