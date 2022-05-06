@@ -8,7 +8,11 @@
             <div class="carousel__item">
                 <img
                     class="w-full h-full object-cover rounded-lg"
-                    :src="img.url"
+                    :src="
+                        img.url.match('images/')
+                            ? `/storage/${img.url}`
+                            : img.url
+                    "
                     alt="img"
                 />
             </div>

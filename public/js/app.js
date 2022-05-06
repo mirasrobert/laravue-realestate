@@ -35683,7 +35683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $props.rent.images[0].url,
+    src: $props.rent.images[0].url.match('images/') ? "/storage/".concat($props.rent.images[0].url) : $props.rent.images[0].url,
     alt: "image",
     "class": "img-thumbnail"
   }, null, 8
@@ -35811,7 +35811,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
               "class": "w-full h-full object-cover rounded-lg",
-              src: img.url,
+              src: img.url.match('images/') ? "/storage/".concat(img.url) : img.url,
               alt: "img"
             }, null, 8
             /* PROPS */
