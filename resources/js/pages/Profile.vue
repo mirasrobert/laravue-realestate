@@ -27,6 +27,15 @@
                         <p class="text-sm font-medium">
                             {{ profile.company }}
                         </p>
+
+                        <div v-if="user">
+                            <router-link
+                                class="text-blue-500"
+                                :to="{ name: 'EditProfile', params: id }"
+                            >
+                                Edit Profile
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,6 +77,8 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
 import { fetchProfile, fetchProfileRents } from "../services/profileService";
@@ -79,8 +90,9 @@ export default {
     components: { RentCard, PulseLoader, ErrorMessage },
     name: "Profile",
     setup() {
+        const store = useStore();
         const route = useRoute();
-        const id = parseInt(route.params.id); // read parameter id (it is reactive)
+        const id = route.params.id; // read parameter id (it is reactive)
 
         const {
             error: profileError,
@@ -88,6 +100,7 @@ export default {
             isLoading: profileIsLoading,
         } = useQuery(["profile", id], () => fetchProfile(id), {
             retry: 1,
+            enabled: id != null || id != undefined ? true : false,
         });
 
         const {
@@ -96,6 +109,7 @@ export default {
             isLoading: rentsIsLoading,
         } = useQuery(["listing", id], () => fetchProfileRents(id), {
             retry: 1,
+            enabled: id != null || id != undefined ? true : false,
         });
 
         return {
@@ -105,12 +119,14 @@ export default {
             profile,
             profileIsLoading,
             rentsIsLoading,
+            user: computed(() => store.getters.user), // Get the user from the getters
+            id,
         };
     },
 };
 </script>
 
-<style scoped>
+<style>
 .avatar {
     width: 130px;
     height: 130px;

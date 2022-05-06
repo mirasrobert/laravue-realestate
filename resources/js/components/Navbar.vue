@@ -34,7 +34,7 @@
                         </button>
                     </div>
                     <nav
-                        class="flex flex-col shadow-md flex-grow pb-4 md:pb-0 md:shadow-none md:flex md:justify-end md:flex-row items-center"
+                        class="flex flex-col shadow-lg flex-grow pb-4 md:pb-0 md:shadow-none md:flex md:justify-end md:flex-row items-center"
                         :class="{ hidden: !isOpen }"
                     >
                         <router-link

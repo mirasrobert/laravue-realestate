@@ -1,5 +1,9 @@
 <template>
-    <Carousel :autoplay="3000" :breapoints="breakpoints" wrap-around="true">
+    <Carousel
+        :autoplay="3000"
+        :breapoints="breakpoints"
+        :wrap-around="wrapAround"
+    >
         <Slide v-for="(img, index) in images" :key="index">
             <div class="carousel__item">
                 <img
@@ -31,6 +35,7 @@ export default {
     },
     data() {
         return {
+            wrapAround: true,
             breakpoints: {
                 // 700px and up
                 700: {

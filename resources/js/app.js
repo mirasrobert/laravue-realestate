@@ -13,6 +13,10 @@ import router from "./router";
 import store from "./store";
 import { VueQueryPlugin } from "vue-query";
 
+// Vue Toast Notifaction
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 // Config for Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -42,6 +46,7 @@ store.dispatch("attempt", localStorage.getItem("token")).then(() => {
     app.component("font-awesome-icon", FontAwesomeIcon); // Use FontAwesome Icons
 
     app.use(VueQueryPlugin);
+    app.use(VueToast);
     app.use(store);
     app.use(router);
     app.mount("#app");

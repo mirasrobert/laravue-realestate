@@ -30,9 +30,11 @@
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/vue-fontawesome": "^3.0.0-5",
+        "sweetalert2": "^11.4.10",
         "vue-query": "^1.22.3",
         "vue-router": "^4.0.14",
         "vue-spinner": "^1.0.4",
+        "vue-toast-notification": "^3.0.1",
         "vue3-carousel": "^0.1.38",
         "vuex": "^4.0.2"
     }

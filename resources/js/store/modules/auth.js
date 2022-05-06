@@ -1,68 +1,74 @@
-
+import Swal from "sweetalert2";
 
 // State
 const state = {
     token: null,
-    user: null
+    user: null,
 };
 
 const getters = {
     authenticated: (state) => {
-        return state.token && state.user // Check if authenticated
+        return state.token && state.user; // Check if authenticated
     },
 
     user: (state) => {
-        return state.user // Get User Information from the state
-    }
-
-}
+        return state.user; // Get User Information from the state
+    },
+};
 
 // Actions are when you are creating API calls and committing Mutations
 const actions = {
-    async login({dispatch}, data) {
-        const response = await axios.post('/api/auth/login', data.formData); // Login that returns a token
-
+    async login({ dispatch }, data) {
         try {
-            dispatch('attempt', response.data.token)
-            data.router.push('/'); // Redirect When Success Login
+            const response = await axios.post("/api/auth/login", data.formData); // Login that returns a token
+            dispatch("attempt", response.data.token);
+            data.router.push("/"); // Redirect When Success Login
         } catch (e) {
-            console.error('Forbidden: Invalid Credentials')
+            console.error("Forbidden: Invalid Credentials");
+            Swal.fire({
+                toast: true,
+                icon: "error",
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                title: "Invalid Username or Password",
+            });
         }
-
     },
 
-    async attempt({commit, state}, token) {
-        if(token) {
-            commit('SET_TOKEN', token)
+    async attempt({ commit, state }, token) {
+        if (token) {
+            commit("SET_TOKEN", token);
         }
 
         // Check if there is a token in the state
         // Don't send unnecessary error if no token
         // Stop the process
-        if(!state.token) {
-            return
+        if (!state.token) {
+            return;
         }
 
         try {
             // If there is a token the get the user from API
-            const response = await axios.get('/api/auth/me')
+            const response = await axios.get("/api/auth/me");
 
-            commit('SET_USER', response.data) // Set the user data on the state
-
+            commit("SET_USER", response.data); // Set the user data on the state
         } catch (e) {
             // If token is invalid then clear the state
-            commit('SET_TOKEN', null)
-            commit('SET_USER', null)
-            console.error('Unauthorized')
+            commit("SET_TOKEN", null);
+            commit("SET_USER", null);
+            localStorage.removeItem("token");
+            console.error("Unauthorized");
         }
     },
 
     logout({ commit }) {
-        return axios.post('/api/auth/logout').then(() => {
-            commit('SET_TOKEN', null)
-            commit('SET_USER', null)
-        })
-    }
+        return axios.post("/api/auth/logout").then(() => {
+            commit("SET_TOKEN", null);
+            commit("SET_USER", null);
+        });
+    },
 };
 
 const mutations = {
@@ -70,13 +76,13 @@ const mutations = {
         state.token = payload; // Set the token on the state
     },
     SET_USER: (state, payload) => {
-        state.user = payload // Set the user data on the  state
-    }
-}
+        state.user = payload; // Set the user data on the  state
+    },
+};
 
 export default {
     state,
     getters,
     actions,
-    mutations
-}
+    mutations,
+};

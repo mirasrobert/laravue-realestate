@@ -1,19 +1,13 @@
 <template>
-
     <div
-        class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-        <div class="flex flex-col
-          bg-white
-          shadow-md
-          px-4
-          sm:px-6
-          md:px-8
-          lg:px-10
-          py-8
-          rounded-3xl
-          w-50
-          max-w-md">
-            <div class="font-medium self-center text-xl sm:text-3xl text-gray-800">
+        class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+    >
+        <div
+            class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md"
+        >
+            <div
+                class="font-medium self-center text-xl sm:text-3xl text-gray-800"
+            >
                 Welcome Back
             </div>
             <div class="mt-4 self-center text-xl sm:text-sm text-gray-800">
@@ -26,19 +20,12 @@
                         <label
                             for="email"
                             class="mb-1 text-xs tracking-wide text-gray-600"
-                        >E-Mail Address:</label
+                            >E-Mail Address:</label
                         >
                         <div class="relative">
                             <div
-                                class="inline-flex
-                                items-center
-                                justify-center
-                                absolute
-                                left-0
-                                top-0
-                                h-full
-                                w-10
-                                text-gray-400">
+                                class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
+                            >
                                 <i class="fas fa-at text-blue-500"></i>
                             </div>
 
@@ -47,17 +34,7 @@
                                 id="email"
                                 type="email"
                                 name="email"
-                                class="
-                    text-sm
-                    placeholder-gray-500
-                    pl-10
-                    pr-4
-                    rounded-2xl
-                    border border-gray-400
-                    w-full
-                    py-2
-                    focus:outline-none focus:border-blue-400
-                  "
+                                class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="Enter your email"
                             />
                         </div>
@@ -66,25 +43,15 @@
                         <label
                             for="password"
                             class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
-                        >Password:</label
+                            >Password:</label
                         >
                         <div class="relative">
                             <div
-                                class="
-                    inline-flex
-                    items-center
-                    justify-center
-                    absolute
-                    left-0
-                    top-0
-                    h-full
-                    w-10
-                    text-gray-400
-                  "
+                                class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
                             >
-                  <span>
-                    <i class="fas fa-lock text-blue-500"></i>
-                  </span>
+                                <span>
+                                    <i class="fas fa-lock text-blue-500"></i>
+                                </span>
                             </div>
 
                             <input
@@ -92,17 +59,7 @@
                                 id="password"
                                 type="password"
                                 name="password"
-                                class="
-                    text-sm
-                    placeholder-gray-500
-                    pl-10
-                    pr-4
-                    rounded-2xl
-                    border border-gray-400
-                    w-full
-                    py-2
-                    focus:outline-none focus:border-blue-400
-                  "
+                                class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="Enter your password"
                             />
                         </div>
@@ -111,30 +68,34 @@
                     <div class="flex w-full">
                         <button
                             type="submit"
-                            class="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500
-                                  hover:bg-blue-600
-                                  rounded-2xl
-                                  py-2
-                                  w-full
-                                  transition
-                                  duration-150
-                                  ease-in">
-                            <span class="mr-2 uppercase">Sign In</span>
-                            <span>
-                  <svg
-                      class="h-6 w-6"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                  >
-                    <path
-                        d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </span>
+                            class="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in"
+                            :class="{ 'cursor-not-allowed': isLoading }"
+                            :disabled="isLoading"
+                        >
+                            <div v-if="!isLoading" class="inline-block flex">
+                                <span class="mr-2 uppercase">Sign In</span>
+                                <span>
+                                    <svg
+                                        class="h-6 w-6"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div v-else class="px-1">
+                                <pulse-loader
+                                    size="7px"
+                                    color="#fff"
+                                ></pulse-loader>
+                            </div>
                         </button>
                     </div>
                 </form>
@@ -144,69 +105,64 @@
             <a
                 href="#"
                 target="_blank"
-                class="
-            inline-flex
-            items-center
-            text-gray-700
-            font-medium
-            text-xs text-center
-          "
+                class="inline-flex items-center text-gray-700 font-medium text-xs text-center"
             >
-          <span class="ml-2"
-          >You don't have an account?
-            <a
-                href="#"
-                class="text-xs ml-2 text-blue-500 font-semibold"
-            >Register now</a
-            ></span
-          >
+                <span class="ml-2"
+                    >You don't have an account?
+                    <a href="#" class="text-xs ml-2 text-blue-500 font-semibold"
+                        >Register now</a
+                    ></span
+                >
             </a>
         </div>
     </div>
-
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex'
-    import router from "../router";
+import { mapActions, mapGetters } from "vuex";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import router from "../router";
 
-    export default {
-        name: "Login",
+export default {
+    name: "Login",
+    components: { PulseLoader },
 
-        data() {
-            return {
-                form: {
-                    email: '',
-                    password: ''
-                }
-            }
-        },
+    data() {
+        return {
+            isLoading: false,
+            form: {
+                email: "",
+                password: "",
+            },
+        };
+    },
 
-        computed: {
-            ...mapGetters['authenticated']
-        },
+    computed: {
+        ...mapGetters["authenticated"],
+    },
 
-        created() {
-            if(this.$store.getters.authenticated) {
-                router.push('/')
-            }
-        },
-
-        methods: {
-            ...mapActions(['login']),
-
-            onSubmit() {
-                this.login({
-                    formData: this.form,
-                    router: router
-                })
-                this.form.password = ''
-            }
+    created() {
+        if (this.$store.getters.authenticated) {
+            router.replace("/");
         }
+    },
 
-    }
+    methods: {
+        ...mapActions(["login"]),
+
+        onSubmit() {
+            this.isLoading = true;
+            this.login({
+                formData: this.form,
+                router: router,
+            });
+            this.form.password = "";
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 500);
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

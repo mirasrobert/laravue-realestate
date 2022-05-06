@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProfileResource;
@@ -24,9 +25,10 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpdateProfileRequest $request)
     {
-        //
+        $profile = Profile::create($request->validated());
+        return new ProfileResource($profile);
     }
 
     /**
@@ -49,9 +51,13 @@ class ProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(UpdateProfileRequest $request, Profile $profile)
     {
-        //
+        $profile->update($request->validated());
+
+        $profile->load(['user', 'image']);
+
+        return new ProfileResource($profile);
     }
 
     /**
@@ -62,6 +68,7 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        $profile->delete();
+        return response()->json(['message' => 'Profile deleted'], 200);
     }
 }
