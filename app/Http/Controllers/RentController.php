@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRentRequest;
 use App\Models\Rent;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Resources\RentResource;
+use App\Http\Requests\StoreRentRequest;
 
 class RentController extends Controller
 {
@@ -28,7 +29,25 @@ class RentController extends Controller
      */
     public function store(StoreRentRequest $request)
     {
-        return auth()->user()->rents()->create($request->validated());
+        // Validate Image
+        request()->validate([
+            'images' => 'required|array',
+        ]);
+
+        $rent = auth()->user()->rents()->create($request->validated());
+        $files = $request->images;
+        if($files) {
+            foreach ($files as $file) {
+                $path =  $file->store('images', 'public');
+                Image::create([
+                    'imageable_id' => $rent->id,
+                    'imageable_type' => 'App\Models\Rent',
+                    'url' => $path,
+                ]);
+            }
+        }
+
+        return $rent;
     }
 
     /**

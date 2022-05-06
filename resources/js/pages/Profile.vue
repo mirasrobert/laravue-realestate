@@ -66,7 +66,17 @@
         <hr />
 
         <div class="my-6">
-            <h5 class="block font-semibold text-2xl mb-5">Sale Listings</h5>
+            <div class="flex items-end mb-5">
+                <h5 class="block font-semibold text-2xl mr-3">Sale Listings</h5>
+                <div v-if="user">
+                    <router-link
+                        class="text-blue-500 text-sm"
+                        :to="{ name: 'AddListing' }"
+                    >
+                        Add Listing
+                    </router-link>
+                </div>
+            </div>
             <div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 lg:grid-cols-4">
                 <div v-for="rent in listing" :key="rent.id">
                     <rent-card :rent="rent" />
