@@ -1,10 +1,10 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
-import About from "./pages/About";
-import Rent from "./pages/Rent";
-import Land from "./pages/Land";
-import Profile from "./pages/Profile";
+import About from "./pages/About.vue";
+import Rent from "./pages/Rent.vue";
+import Land from "./pages/Land.vue";
+import Profile from "./pages/Profile.vue";
 import EditProfile from "./pages/EditProfile.vue";
 import AddListing from "./pages/AddListing.vue";
 import EditListing from "./pages/EditListing.vue";

@@ -104,9 +104,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuery, useMutation, useQueryClient } from "vue-query";
+import { useStore } from "vuex";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import { fetchProfile, updateProfile } from "../services/profileService";
@@ -119,8 +120,11 @@ export default {
         const route = useRoute();
         const router = useRouter();
         const queryClient = useQueryClient();
+        const store = useStore();
 
         const id = route.params.id; // read parameter id (it is reactive)
+
+        const user = computed(() => store.getters.user);
 
         const { isLoading: isSaving, mutate } = useMutation(updateProfile, {
             onSuccess: () => {
@@ -145,6 +149,10 @@ export default {
         onMounted(() => {
             if (!localStorage.getItem("token")) {
                 router.push({ name: "Login" });
+            }
+
+            if (user.value.id !== parseInt(id)) {
+                router.push({ name: "Profile", params: { id: user.value.id } });
             }
         });
 

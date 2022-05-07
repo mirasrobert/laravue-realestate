@@ -118,16 +118,15 @@ export default {
             isLoading: profileIsLoading,
         } = useQuery(["profile", id], () => fetchProfile(id), {
             retry: 1,
-            cacheTime: 10000, // 10 seconds
+            cacheTime: 500, // 10 seconds
         });
-
         const {
             error: rentError,
             data: listing,
             isLoading: rentsIsLoading,
         } = useQuery(["listing", id], () => fetchProfileRents(id), {
             retry: 1,
-            cacheTime: 10000, // 10 seconds
+            cacheTime: 500, // 10 seconds
         });
 
         onMounted(() => {
