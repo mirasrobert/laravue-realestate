@@ -27,3 +27,14 @@ export const deleteRent = async (id) => {
     const { data } = await axios.delete(`/api/rents/${id}`);
     return data;
 };
+
+// Update a rent
+export const updateRent = async (params) => {
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const { data } = await axios.post(
+        `/api/rents/${params.id}`,
+        params.fields,
+        config
+    );
+    return data;
+};

@@ -7,6 +7,7 @@ import Land from "./pages/Land";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile.vue";
 import AddListing from "./pages/AddListing.vue";
+import EditListing from "./pages/EditListing.vue";
 
 const routes = [
     {
@@ -48,6 +49,11 @@ const routes = [
         path: "/rent/create",
         name: "AddListing",
         component: AddListing,
+    },
+    {
+        path: "/rent/:id/edit",
+        name: "EditListing",
+        component: EditListing,
     },
 ];
 

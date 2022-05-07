@@ -14,11 +14,26 @@
         </div>
         <div class="container mx-auto px-4">
             <div class="flex justify-between">
-                <h5 class="block font-semibold text-2xl mb-3">
-                    {{ data.title }} - &#8369;{{
-                        parseFloat(data.price).toFixed(2)
-                    }}
-                </h5>
+                <div>
+                    <h5 class="block font-semibold text-2xl mb-3">
+                        {{ data.title }} - &#8369;{{
+                            parseFloat(data.price).toFixed(2)
+                        }}
+                        <span>
+                            <router-link
+                                v-if="data.user.id === user.id"
+                                class="text-blue-500 text-sm font-light"
+                                :to="{ name: 'EditListing', params: { id } }"
+                            >
+                                <font-awesome-icon
+                                    icon="pencil"
+                                ></font-awesome-icon>
+                                Edit Listing
+                            </router-link>
+                        </span>
+                    </h5>
+                </div>
+
                 <div v-if="data.user.id === user.id">
                     <button
                         type="submit"

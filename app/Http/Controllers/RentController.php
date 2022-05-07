@@ -100,8 +100,21 @@ class RentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(StoreRentRequest $request, Rent $rent)
-    {
+    {      
         $rent->update($request->validated());
+
+        $files = $request->images;
+        if($files) {
+            foreach ($files as $file) {
+                $path =  $file->store('images', 'public');
+                Image::create([
+                    'imageable_id' => $rent->id,
+                    'imageable_type' => 'App\Models\Rent',
+                    'url' => $path,
+                ]);
+            }
+        }
+
         return new RentResource($rent);
     }
 

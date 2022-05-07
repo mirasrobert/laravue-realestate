@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full shadow-md mb-6 md:mb-0">
-        <div class="bg-white rounded-lg mb-10">
+    <div class="bg-white w-full shadow-md mb-6 md:mb-0 h-full">
+        <div class="rounded-lg mb-10">
             <img
                 :src="
                     rent.images[0].url.match('images/')
@@ -50,4 +50,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.img-thumbnail {
+    width: 100%;
+    min-height: 230px;
+    height: 230px;
+    max-height: 230px;
+    object-fit: cover;
+}
+</style>

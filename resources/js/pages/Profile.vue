@@ -31,7 +31,7 @@
                         <div v-if="user && user.id === id">
                             <router-link
                                 class="text-blue-500"
-                                :to="{ name: 'EditProfile', params: id }"
+                                :to="{ name: 'EditProfile', params: { id } }"
                             >
                                 <font-awesome-icon
                                     icon="pencil"
@@ -68,7 +68,7 @@
 
         <hr />
 
-        <div class="my-6">
+        <div class="my-5">
             <div class="flex items-end mb-5">
                 <h5 class="block font-semibold text-2xl mr-3">Sale Listings</h5>
                 <div v-if="user && user.id === id">
@@ -118,6 +118,7 @@ export default {
             isLoading: profileIsLoading,
         } = useQuery(["profile", id], () => fetchProfile(id), {
             retry: 1,
+            cacheTime: 10000, // 10 seconds
         });
 
         const {
@@ -126,6 +127,7 @@ export default {
             isLoading: rentsIsLoading,
         } = useQuery(["listing", id], () => fetchProfileRents(id), {
             retry: 1,
+            cacheTime: 10000, // 10 seconds
         });
 
         onMounted(() => {
