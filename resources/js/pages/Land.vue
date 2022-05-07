@@ -87,9 +87,21 @@
                 <h5 class="block font-semibold text-2xl text-gray-800 mb-3">
                     Property Ratings at {{ data.title }}
                 </h5>
-                <!-- <p class="font-sm text-gray-800 mb-4">
-                    
-                </p> -->
+                <p class="text-sm text-gray-800 italic">
+                    Posted by:
+                    <router-link
+                        class="text-blue-500 hover:text-blue-400"
+                        :to="{
+                            name: 'Profile',
+                            params: { id: data.user.id },
+                        }"
+                    >
+                        {{ data.user.name }}
+                    </router-link>
+                </p>
+                <p class="text-sm text-gray-800 mb-4 italic">
+                    Post Created: {{ moment(data.created_at).format("LL") }}
+                </p>
             </div>
 
             <div>
@@ -155,6 +167,8 @@
                     </div>
                 </div>
 
+                <review-form :pageId="id" :reviews="data.reviews" />
+
                 <div class="grid grio-cols-1 md:grid-cols-2 gap-3">
                     <div v-for="review in data.reviews" :key="review.id">
                         <review-card :review="review" />
@@ -168,16 +182,28 @@
 <script>
 import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
+import moment from "moment";
 import Slider from "../components/Slider";
 import ReviewCard from "../components/ReviewCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import StarRating from "../components/StarRating.vue";
 import { fetchRent } from "../services/rentService";
+import ReviewForm from "../components/ReviewForm.vue";
 
 export default {
     name: "Land",
-    components: { ReviewCard, Slider, PulseLoader, ErrorMessage, StarRating },
+    components: {
+        ReviewCard,
+        Slider,
+        PulseLoader,
+        ErrorMessage,
+        StarRating,
+        ReviewForm,
+    },
+    created: function () {
+        this.moment = moment;
+    },
     setup() {
         const route = useRoute();
         const id = parseInt(route.params.id); // read parameter id (it is reactive)
@@ -195,6 +221,7 @@ export default {
             data,
             isLoading,
             isFetching,
+            id,
         };
     },
 };

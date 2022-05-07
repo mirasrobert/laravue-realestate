@@ -10,6 +10,11 @@ use App\Http\Requests\StoreRentRequest;
 
 class RentController extends Controller
 {
+    // Auth middleware
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['index', 'show', 'userRents']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -58,7 +63,7 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        $rent = Rent::with(['images', 'reviews.user' => function ($query) {
+        $rent = Rent::with(['user', 'images', 'reviews.user' => function ($query) {
             $query->select('id', 'name')
                 ->orderBy('created_at', 'desc');
         }])

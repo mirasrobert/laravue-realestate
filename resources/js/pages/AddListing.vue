@@ -91,6 +91,8 @@
                 <button
                     type="submit"
                     class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 focus:shadow-outline-blue-300 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+                    :class="{ 'opacity-50 cursor-not-allowed': isLoading }"
+                    :disabled="isLoading"
                 >
                     <p>Create</p>
                     <div v-if="isLoading" class="px-1">
@@ -103,9 +105,11 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { useMutation, useQueryClient } from "vue-query";
 import { addRent } from "../services/rentService";
-import { useMutation } from "vue-query";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import Swal from "sweetalert2";
 
@@ -113,6 +117,13 @@ export default {
     name: "AddListing",
     components: { PulseLoader },
     setup() {
+        const router = useRouter();
+        const store = useStore();
+        const queryClient = useQueryClient();
+
+        // To Get User (user.value)
+        const user = computed(() => store.getters.user);
+
         const fields = ref({
             title: "",
             location: "",
@@ -126,6 +137,9 @@ export default {
 
         const { mutate, isLoading } = useMutation(addRent, {
             onSuccess: (data) => {
+                // Empty Cache to update UI
+                queryClient.invalidateQueries(["listing", user.value.id]);
+
                 // Empty Fields
                 fields.value = {
                     title: "",
@@ -148,6 +162,11 @@ export default {
                     timerProgressBar: true,
                     title: "A new rent has been added",
                 });
+
+                // Redirect After
+                if (user.value) {
+                    router.push(`/profiles/${user.value.id}`);
+                }
             },
             onError: () => {
                 // Success message

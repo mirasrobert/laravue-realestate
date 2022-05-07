@@ -33,6 +33,9 @@
                                 class="text-blue-500"
                                 :to="{ name: 'EditProfile', params: id }"
                             >
+                                <font-awesome-icon
+                                    icon="pencil"
+                                ></font-awesome-icon>
                                 Edit Profile
                             </router-link>
                         </div>
@@ -70,9 +73,10 @@
                 <h5 class="block font-semibold text-2xl mr-3">Sale Listings</h5>
                 <div v-if="user">
                     <router-link
-                        class="text-blue-500 text-sm"
+                        class="text-blue-500 text-md hover:text-blue-400 focus:text-blue-600"
                         :to="{ name: 'AddListing' }"
                     >
+                        <font-awesome-icon icon="plus"></font-awesome-icon>
                         Add Listing
                     </router-link>
                 </div>

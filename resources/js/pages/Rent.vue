@@ -50,8 +50,9 @@ export default {
 <style scoped>
 .img-thumbnail {
     width: 100%;
+    min-height: 180px;
     height: 180px;
-    object-fit: cover;
     max-height: 180px;
+    object-fit: cover;
 }
 </style>

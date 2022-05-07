@@ -1,6 +1,6 @@
 <template>
     <div class="w-full shadow-md mb-6 md:mb-0">
-        <div class="bg-white rounded-lg overflow-hidden mb-10">
+        <div class="bg-white rounded-lg mb-10">
             <img
                 :src="
                     rent.images[0].url.match('images/')
@@ -17,29 +17,18 @@
                     {{ rent.title }}
                 </h3>
                 <p
-                    class="text-sm text-gray-800 text-body-color leading-relaxed"
+                    class="text-md text-gray-800 text-body-color leading-relaxed"
                 >
                     {{ rent.location }}
                 </p>
 
                 <div class="flex flex-wrap justify-center space-x-6 mb-3">
                     <div>
-                        <font-awesome-icon icon="bed" />
-                        <span class="text-sm text-gray-800 ml-1">
-                            {{ rent.features.split(",")[0] }}
-                        </span>
-                    </div>
-                    <div>
-                        <font-awesome-icon icon="bath" />
-                        <span class="text-sm text-gray-800 ml-1">{{
-                            rent.features.split(",")[1]
-                        }}</span>
-                    </div>
-                    <div>
-                        <font-awesome-icon icon="door-open" />
-                        <span class="text-sm text-gray-800 ml-1">
-                            {{ rent.features.split(",")[2] }}
-                        </span>
+                        <p
+                            class="text-lg font-bold text-gray-800 text-body-color leading-relaxed"
+                        >
+                            &#x20B1; {{ parseFloat(rent.price).toFixed(2) }}
+                        </p>
                     </div>
                 </div>
 
@@ -61,4 +50,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>
