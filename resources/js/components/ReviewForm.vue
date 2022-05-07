@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import { useMutation, useQueryClient } from "vue-query";
 import { useStore } from "vuex";
 import { addReview } from "../services/reviewService";
@@ -75,21 +75,24 @@ export default {
         const isHidden = ref(true);
 
         const user = computed(() => store.getters.user);
-        const hasReview = computed(() => {
-            return (
-                props.reviews.filter(
-                    (review) => review.user_id == user.value.id
-                ).length > 0
-            );
-        });
+        const hasReview = ref(false);
 
         const store = useStore();
         const queryClient = useQueryClient();
+
+        onMounted(() => {
+            props.reviews.forEach((review) => {
+                if (review.user_id === user.value.id) {
+                    hasReview.value = true;
+                }
+            });
+        });
 
         const { mutate, isLoading } = useMutation(addReview, {
             onSuccess: () => {
                 isHidden.value = true;
                 queryClient.invalidateQueries(["rent", props.pageId]);
+                hasReview.value = true;
 
                 // Success message
                 Swal.fire({
@@ -104,6 +107,8 @@ export default {
             },
             onError: () => {
                 isHidden.value = true;
+                hasReview.value = false;
+
                 // Error message
                 Swal.fire({
                     toast: true,

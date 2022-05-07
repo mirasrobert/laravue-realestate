@@ -28,7 +28,7 @@
                             {{ profile.company }}
                         </p>
 
-                        <div v-if="user">
+                        <div v-if="user && user.id === id">
                             <router-link
                                 class="text-blue-500"
                                 :to="{ name: 'EditProfile', params: id }"
@@ -71,7 +71,7 @@
         <div class="my-6">
             <div class="flex items-end mb-5">
                 <h5 class="block font-semibold text-2xl mr-3">Sale Listings</h5>
-                <div v-if="user">
+                <div v-if="user && user.id === id">
                     <router-link
                         class="text-blue-500 text-md hover:text-blue-400 focus:text-blue-600"
                         :to="{ name: 'AddListing' }"
@@ -91,10 +91,10 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { useQuery } from "vue-query";
+import { useQuery, useQueryClient } from "vue-query";
 import { fetchProfile, fetchProfileRents } from "../services/profileService";
 import RentCard from "../components/RentCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
@@ -106,7 +106,11 @@ export default {
     setup() {
         const store = useStore();
         const route = useRoute();
-        const id = route.params.id; // read parameter id (it is reactive)
+        const queryClient = useQueryClient();
+
+        const id = parseInt(route.params.id); // read parameter id (it is reactive)
+
+        const user = computed(() => store.getters.user);
 
         const {
             error: profileError,
@@ -114,7 +118,6 @@ export default {
             isLoading: profileIsLoading,
         } = useQuery(["profile", id], () => fetchProfile(id), {
             retry: 1,
-            enabled: id != null || id != undefined ? true : false,
         });
 
         const {
@@ -123,7 +126,12 @@ export default {
             isLoading: rentsIsLoading,
         } = useQuery(["listing", id], () => fetchProfileRents(id), {
             retry: 1,
-            enabled: id != null || id != undefined ? true : false,
+        });
+
+        onMounted(() => {
+            if (user.value.id === id) {
+                queryClient.invalidateQueries(["profile", id]);
+            }
         });
 
         return {
@@ -133,7 +141,7 @@ export default {
             profile,
             profileIsLoading,
             rentsIsLoading,
-            user: computed(() => store.getters.user), // Get the user from the getters
+            user, // Get the user from the getters
             id,
         };
     },

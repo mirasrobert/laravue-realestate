@@ -33,7 +33,9 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request)
     {
-        $review = Review::where('rent_id', $request->rent_id)->exists();
+        $review = Review::where('rent_id', $request->rent_id)
+                ->where('user_id', auth()->id())
+                ->exists();
         // If there is no a review
         if(!$review) {
             return new ReviewResource(auth()->user()->reviews()->create($request->validated()));

@@ -21,3 +21,9 @@ export const addRent = async (rent) => {
     const { data } = await axios.post("/api/rents", rent, config);
     return data;
 };
+
+// Delete a rent
+export const deleteRent = async (id) => {
+    const { data } = await axios.delete(`/api/rents/${id}`);
+    return data;
+};

@@ -28,6 +28,7 @@ import {
     faStarHalfStroke,
     faPlus,
     faPencil,
+    faTrash,
 } from "@fortawesome/free-solid-svg-icons"; // Free Icons
 import { fab } from "@fortawesome/free-brands-svg-icons"; // Free Brand Icons
 
@@ -39,7 +40,8 @@ library.add(
     faStar,
     faStarHalfStroke,
     faPlus,
-    faPencil
+    faPencil,
+    faTrash
 );
 
 import AppRoot from "./AppRoot";

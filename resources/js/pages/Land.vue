@@ -13,11 +13,28 @@
             <Slider :images="data.images" />
         </div>
         <div class="container mx-auto px-4">
-            <h5 class="block font-semibold text-2xl mb-3">
-                {{ data.title }} - &#8369;{{
-                    parseFloat(data.price).toFixed(2)
-                }}
-            </h5>
+            <div class="flex justify-between">
+                <h5 class="block font-semibold text-2xl mb-3">
+                    {{ data.title }} - &#8369;{{
+                        parseFloat(data.price).toFixed(2)
+                    }}
+                </h5>
+                <div v-if="data.user.id === user.id">
+                    <button
+                        type="submit"
+                        class="bg-red-500 hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 focus:shadow-outline-red-300 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+                        :class="{ 'opacity-50 cursor-not-allowed': false }"
+                        :disabled="false"
+                        @click.prevent="deleteDialog"
+                    >
+                        <font-awesome-icon
+                            class="px-1"
+                            icon="trash"
+                        ></font-awesome-icon>
+                        <p>Delete</p>
+                    </button>
+                </div>
+            </div>
             <span
                 class="text-sm px-3 py-2 text-white rounded-full"
                 :class="{
@@ -180,16 +197,19 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
-import { useQuery } from "vue-query";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { useQuery, useMutation } from "vue-query";
 import moment from "moment";
 import Slider from "../components/Slider";
 import ReviewCard from "../components/ReviewCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import StarRating from "../components/StarRating.vue";
-import { fetchRent } from "../services/rentService";
+import { fetchRent, deleteRent } from "../services/rentService";
 import ReviewForm from "../components/ReviewForm.vue";
+import Swal from "sweetalert2";
 
 export default {
     name: "Land",
@@ -205,7 +225,9 @@ export default {
         this.moment = moment;
     },
     setup() {
+        const store = useStore();
         const route = useRoute();
+        const router = useRouter();
         const id = parseInt(route.params.id); // read parameter id (it is reactive)
 
         const { error, data, isLoading, isFetching } = useQuery(
@@ -216,12 +238,45 @@ export default {
             }
         );
 
+        const { mutate } = useMutation(deleteRent, {
+            onSuccess: () => {
+                Swal.fire("Deleted!", "Post has been deleted.", "success");
+
+                router.replace({ name: "Home" });
+            },
+            onError: (error) => {
+                Swal.fire(
+                    "Error!",
+                    "Something went wrong, cannot remove your post",
+                    "error"
+                );
+            },
+        });
+
+        const deleteDialog = () => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    mutate(id);
+                }
+            });
+        };
+
         return {
             error,
             data,
             isLoading,
             isFetching,
             id,
+            user: computed(() => store.getters.user),
+            deleteDialog,
         };
     },
 };
