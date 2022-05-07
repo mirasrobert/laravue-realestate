@@ -7,6 +7,8 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Resources\RentResource;
 use App\Http\Requests\StoreRentRequest;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 
 class RentController extends Controller
 {
@@ -43,11 +45,23 @@ class RentController extends Controller
         $files = $request->images;
         if($files) {
             foreach ($files as $file) {
-                $path =  $file->store('images', 'public');
+                //$path =  $file->store('images', 'public');
+
+                $img = $file->getRealPath();
+                $uploadedFileUrl = cloudinary()->upload($img, [
+                    "folder" => "img",
+                    "transformation" => [
+                        'quality' => '60',
+                        "width" => 1280,
+                        "height" => 720,
+                        "crop" => "fit"
+                    ]
+                ])->getSecurePath();
+
                 Image::create([
                     'imageable_id' => $rent->id,
                     'imageable_type' => 'App\Models\Rent',
-                    'url' => $path,
+                    'url' => $uploadedFileUrl,
                 ]);
             }
         }
@@ -106,11 +120,23 @@ class RentController extends Controller
         $files = $request->images;
         if($files) {
             foreach ($files as $file) {
-                $path =  $file->store('images', 'public');
+                //$path =  $file->store('images', 'public');
+
+                $img = $file->getRealPath();
+                $uploadedFileUrl = cloudinary()->upload($img, [
+                    "folder" => "img",
+                    "transformation" => [
+                        'quality' => '60',
+                        "width" => 1280,
+                        "height" => 720,
+                        "crop" => "fit"
+                    ]
+                ])->getSecurePath();
+
                 Image::create([
                     'imageable_id' => $rent->id,
                     'imageable_type' => 'App\Models\Rent',
-                    'url' => $path,
+                    'url' => $uploadedFileUrl,
                 ]);
             }
         }
