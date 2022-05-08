@@ -207,7 +207,20 @@
                     </div>
                 </div>
 
-                <review-form :pageId="id" :reviews="data.reviews" />
+                <div v-if="user !== null">
+                    <review-form :pageId="id" :reviews="data.reviews" />
+                </div>
+                <div v-else>
+                    <!-- Alert Box -->
+                    <div class="bg-blue-500 px-3 py-2 rounded-md">
+                        <p class="text-white text-md">
+                            <router-link :to="{ name: 'Login' }"
+                                >Login</router-link
+                            >
+                            <span> to leave a review </span>
+                        </p>
+                    </div>
+                </div>
 
                 <div class="grid grio-cols-1 md:grid-cols-2 gap-3">
                     <div v-for="review in data.reviews" :key="review.id">
