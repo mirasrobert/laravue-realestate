@@ -21,7 +21,7 @@
                         }}
                         <span>
                             <router-link
-                                v-if="data.user.id === user.id"
+                                v-if="user && data?.user?.id === user?.id"
                                 class="text-blue-500 text-sm font-light"
                                 :to="{ name: 'EditListing', params: { id } }"
                             >
@@ -106,12 +106,20 @@
                 <p class="text-sm font-semibold block mt-4 text-gray-800 mb-3">
                     {{ data.location }}
                 </p>
-                <div class="location">
-                    <img
-                        src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg"
-                        alt="img"
-                        class="w-full h-full"
-                    />
+                <div v-if="lat !== 0 && lng !== 0" class="location">
+                    <l-map
+                        v-model="zoom"
+                        v-model:zoom="zoom"
+                        :center="[lat, lng]"
+                    >
+                        <l-tile-layer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        ></l-tile-layer>
+                        <l-control-layers />
+                        <l-marker :lat-lng="[lat, lng]">
+                            <l-popup> {{ data.location }} </l-popup>
+                        </l-marker>
+                    </l-map>
                 </div>
             </div>
 
@@ -212,7 +220,7 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { useQuery, useMutation } from "vue-query";
@@ -226,6 +234,18 @@ import { fetchRent, deleteRent } from "../services/rentService";
 import ReviewForm from "../components/ReviewForm.vue";
 import Swal from "sweetalert2";
 
+// For Map
+import {
+    LMap,
+    LIcon,
+    LTileLayer,
+    LMarker,
+    LControlLayers,
+    LTooltip,
+    LPopup,
+} from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css";
+
 export default {
     name: "Land",
     components: {
@@ -235,6 +255,13 @@ export default {
         ErrorMessage,
         StarRating,
         ReviewForm,
+        LMap,
+        LIcon,
+        LTileLayer,
+        LMarker,
+        LControlLayers,
+        LTooltip,
+        LPopup,
     },
     created: function () {
         this.moment = moment;
@@ -250,6 +277,9 @@ export default {
             () => fetchRent(id),
             {
                 retry: 1,
+                onSuccess: (data) => {
+                    geoLocation(data.location);
+                },
             }
         );
 
@@ -284,6 +314,30 @@ export default {
             });
         };
 
+        const zoom = ref(10);
+        const lat = ref(0);
+        const lng = ref(0);
+
+        const geoLocation = async (location) => {
+            const { data: MAPBOX_ACCESS_TOKEN } = await axios.get(
+                "/api/mapbox_config"
+            );
+
+            const URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${MAPBOX_ACCESS_TOKEN}`;
+
+            fetch(URL)
+                .then((response) => response.json())
+                .then((contents) => {
+                    lat.value = contents.features[0].center[1];
+                    lng.value = contents.features[0].center[0];
+                })
+                .catch(() =>
+                    console.log(
+                        "Can’t access " + URL + " response. Blocked by browser?"
+                    )
+                );
+        };
+
         return {
             error,
             data,
@@ -292,6 +346,10 @@ export default {
             id,
             user: computed(() => store.getters.user),
             deleteDialog,
+            zoom,
+            lat,
+            lng,
+            geoLocation,
         };
     },
 };

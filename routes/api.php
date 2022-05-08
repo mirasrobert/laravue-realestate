@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::group( [
     Route::get('/me', MeController::class);
 });
 
-
+Route::get('/mapbox_config', ConfigController::class);
 Route::get('/rents/users/{user_id}', [RentController::class, 'userRents']);
 Route::apiResource('rents', RentController::class);
 Route::apiResource('profiles', ProfileController::class);
