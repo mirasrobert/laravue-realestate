@@ -34,7 +34,7 @@
                     </h5>
                 </div>
 
-                <div v-if="data.user.id === user.id">
+                <div v-if="user !== null && data?.user?.id === user?.id">
                     <button
                         type="submit"
                         class="bg-red-500 hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 focus:shadow-outline-red-300 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
