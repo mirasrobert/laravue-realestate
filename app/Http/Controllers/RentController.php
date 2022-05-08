@@ -51,7 +51,7 @@ class RentController extends Controller
                 $uploadedFileUrl = cloudinary()->upload($img, [
                     "folder" => "img",
                     "transformation" => [
-                        'quality' => '60',
+                        'quality' => '70',
                         "width" => 1280,
                         "height" => 720,
                         "crop" => "fit"
