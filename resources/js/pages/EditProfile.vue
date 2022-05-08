@@ -24,6 +24,7 @@
                             <input
                                 type="text"
                                 class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                placeholder="Your name"
                                 v-model="profileForm.user.name"
                             />
                         </p>
@@ -31,6 +32,7 @@
                             <input
                                 type="text"
                                 class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                placeholder="Your profession"
                                 v-model="profileForm.profession"
                             />
                         </p>
@@ -38,6 +40,7 @@
                             <input
                                 type="text"
                                 class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                placeholder="Your company"
                                 v-model="profileForm.company"
                             />
                         </p>
@@ -62,29 +65,34 @@
                 <p class="text-gray-800 font-semibold uppercase">
                     Contact {{ profileForm.user.name }}
                 </p>
-                <p class="text-sm font-light">
-                    Call:
+                <div class="mb-3">
+                    <p class="text-sm font-light">Call:</p>
                     <input
                         type="text"
                         class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        placeholder="Your phone number"
                         v-model="profileForm.mobile_number"
                     />
-                </p>
-                <p class="text-sm font-light">
-                    Email:
+                </div>
+                <div class="mb-3">
+                    <p class="text-sm font-light">Email:</p>
                     <input
                         type="text"
                         class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        placeholder="Your email address"
                         v-model="profileForm.user.email"
                     />
-                </p>
-                <span class="text-sm font-light">Speaks:</span> &nbsp;
+                </div>
+                <div class="mb-3">
+                    <span class="text-sm font-light">Speaks:</span> &nbsp;
 
-                <input
-                    type="text"
-                    class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    v-model="profileForm.language"
-                />
+                    <input
+                        type="text"
+                        class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        placeholder="Your language"
+                        v-model="profileForm.language"
+                    />
+                </div>
             </div>
             <div>
                 <button
