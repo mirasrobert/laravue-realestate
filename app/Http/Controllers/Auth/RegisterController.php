@@ -52,7 +52,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'message' => 'User Created Successfully',
-                'data' => $user,
+                'token' => auth()->login($user) 
             ], 201);
         });
         

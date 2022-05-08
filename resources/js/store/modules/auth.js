@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 const state = {
     token: null,
     user: null,
+    registerError: null,
+    loginError: null,
 };
 
 const getters = {
@@ -14,26 +16,52 @@ const getters = {
     user: (state) => {
         return state.user; // Get User Information from the state
     },
+
+    loginError: (state) => {
+        return state.loginError; // Get Register Error from the state
+    },
+
+    registerError: (state) => {
+        return state.registerError; // Get Register Error from the state
+    },
 };
 
 // Actions are when you are creating API calls and committing Mutations
 const actions = {
-    async login({ dispatch }, data) {
+    async login({ commit, dispatch }, data) {
         try {
             const response = await axios.post("/api/auth/login", data.formData); // Login that returns a token
             dispatch("attempt", response.data.token);
+            commit("SET_LOGIN_ERROR", null); // Clear Errors
             data.router.push("/"); // Redirect When Success Login
         } catch (e) {
-            console.error("Forbidden: Invalid Credentials");
-            Swal.fire({
-                toast: true,
-                icon: "error",
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                title: "Invalid Username or Password",
-            });
+            commit("SET_LOGIN_ERROR", e.response.data.errors); // Set Error
+            if (e.response.status === 403) {
+                Swal.fire({
+                    toast: true,
+                    icon: "error",
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: "Invalid Username or Password",
+                });
+                console.error("Forbidden: Invalid Credentials");
+            }
+        }
+    },
+
+    async register({ commit, dispatch }, data) {
+        try {
+            const response = await axios.post(
+                "/api/auth/register",
+                data.formData
+            ); // Register that returns a token
+            dispatch("attempt", response.data.token);
+            commit("SET_REGISTER_ERROR", null); // Clear Errors
+            data.router.push("/"); // Redirect When Success Register
+        } catch (e) {
+            commit("SET_REGISTER_ERROR", e.response.data.errors);
         }
     },
 
@@ -77,6 +105,12 @@ const mutations = {
     },
     SET_USER: (state, payload) => {
         state.user = payload; // Set the user data on the  state
+    },
+    SET_LOGIN_ERROR: (state, payload) => {
+        state.loginError = payload; // Set the validation error for register form
+    },
+    SET_REGISTER_ERROR: (state, payload) => {
+        state.registerError = payload; // Set the validation error for register form
     },
 };
 

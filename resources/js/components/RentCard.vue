@@ -3,7 +3,7 @@
         <div class="rounded-lg mb-10">
             <img
                 :src="
-                    rent.images[0].url.includes('cloudinary')
+                    rent.images[0].url.includes('http')
                         ? rent.images[0].url
                         : `/storage/${rent.images[0].url}`
                 "

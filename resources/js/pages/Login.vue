@@ -37,6 +37,22 @@
                                 class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="Enter your email"
                             />
+
+                            <small
+                                v-if="login_error && login_error.email"
+                                class="text-pink-600 mb-1"
+                            >
+                                <ul class="list-none text-pink-600">
+                                    <li
+                                        v-for="(
+                                            error, index
+                                        ) in login_error.email"
+                                        :key="index"
+                                    >
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </small>
                         </div>
                     </div>
                     <div class="flex flex-col mb-6">
@@ -62,6 +78,22 @@
                                 class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="Enter your password"
                             />
+
+                            <small
+                                v-if="login_error && login_error.password"
+                                class="text-pink-600 mb-1"
+                            >
+                                <ul class="list-none text-pink-600">
+                                    <li
+                                        v-for="(
+                                            error, index
+                                        ) in login_error.password"
+                                        :key="index"
+                                    >
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </small>
                         </div>
                     </div>
 
@@ -109,8 +141,10 @@
             >
                 <span class="ml-2"
                     >You don't have an account?
-                    <a href="#" class="text-xs ml-2 text-blue-500 font-semibold"
-                        >Register now</a
+                    <router-link
+                        :to="{ name: 'Register' }"
+                        class="text-xs ml-2 text-blue-500 font-semibold"
+                        >Register now</router-link
                     ></span
                 >
             </a>
@@ -134,17 +168,26 @@ export default {
                 email: "",
                 password: "",
             },
+            login_error: null,
         };
     },
 
     computed: {
-        ...mapGetters["authenticated"],
+        ...mapGetters[("authenticated", "loginError")],
     },
 
     created() {
         if (this.$store.getters.authenticated) {
             router.replace("/");
         }
+    },
+
+    updated() {
+        // Set The Errors
+        this.login_error =
+            this.$store.getters.loginError !== null
+                ? this.$store.getters.loginError
+                : null;
     },
 
     methods: {

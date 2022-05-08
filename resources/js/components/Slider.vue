@@ -9,7 +9,7 @@
                 <img
                     class="w-full h-full object-cover rounded-lg"
                     :src="
-                        img.url.includes('cloudinary')
+                        img.url.includes('http')
                             ? img.url
                             : `/storage/${img.url}`
                     "
