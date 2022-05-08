@@ -9,9 +9,9 @@
                 <img
                     class="w-full h-full object-cover rounded-lg"
                     :src="
-                        img.url.match('images/')
-                            ? `/storage/${img.url}`
-                            : img.url
+                        img.url.includes('cloudinary')
+                            ? img.url
+                            : `/storage/${img.url}`
                     "
                     alt="img"
                 />

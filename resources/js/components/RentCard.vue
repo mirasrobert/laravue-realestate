@@ -3,9 +3,9 @@
         <div class="rounded-lg mb-10">
             <img
                 :src="
-                    rent.images[0].url.match('images/')
-                        ? `/storage/${rent.images[0].url}`
-                        : rent.images[0].url
+                    rent.images[0].url.includes('cloudinary')
+                        ? rent.images[0].url
+                        : `/storage/${rent.images[0].url}`
                 "
                 alt="image"
                 class="img-thumbnail"
