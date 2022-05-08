@@ -148,6 +148,8 @@ export default {
                     timerProgressBar: true,
                     title: "Your profile has been updated!",
                 });
+
+                router.push({ name: "Profile", params: { id } });
             },
         });
 
