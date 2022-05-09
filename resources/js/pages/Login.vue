@@ -3,7 +3,7 @@
         class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
     >
         <div
-            class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md"
+            class="flex flex-col bg-white shadow-md px-4 mx-4 md:mx-0 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md"
         >
             <div
                 class="font-medium self-center text-xl sm:text-3xl text-gray-800"

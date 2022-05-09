@@ -129,12 +129,6 @@ export default {
             cacheTime: 500, // 10 seconds
         });
 
-        onMounted(() => {
-            if (user.value.id === id) {
-                queryClient.invalidateQueries(["profile", id]);
-            }
-        });
-
         return {
             profileError,
             rentError,
