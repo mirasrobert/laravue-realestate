@@ -194,7 +194,7 @@ export default {
             formData.append("price", fields.value.price);
             formData.append("description", fields.value.description);
             formData.append("features", fields.value.features);
-            formData.append("is_sold", fields.value.is_sold);
+            formData.append("is_sold", 0);
             formData.append("discount", fields.value.discount);
 
             // Append all the images on the FormData Object
