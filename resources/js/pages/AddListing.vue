@@ -16,6 +16,19 @@
                         placeholder="Title"
                         v-model="fields.title"
                     />
+                    <small
+                        v-if="validationError && validationError.title"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(error, index) in validationError.title"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <label class="text-gray-700">Location</label>
@@ -25,6 +38,21 @@
                         placeholder="Location"
                         v-model="fields.location"
                     />
+                    <small
+                        v-if="validationError && validationError.location"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.location"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <label class="text-gray-700">Price</label>
@@ -34,6 +62,19 @@
                         placeholder="Rent price"
                         v-model="fields.price"
                     />
+                    <small
+                        v-if="validationError && validationError.price"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(error, index) in validationError.price"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <label class="text-gray-700">Discount (%)</label>
@@ -43,6 +84,21 @@
                         placeholder="Discount in percentage"
                         v-model="fields.discount"
                     />
+                    <small
+                        v-if="validationError && validationError.discount"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.discount"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <label class="text-gray-700">Description</label>
@@ -53,6 +109,21 @@
                         placeholder="Description"
                         v-model="fields.description"
                     ></textarea>
+                    <small
+                        v-if="validationError && validationError.description"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.description"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <label class="text-gray-700">Features</label>
@@ -66,6 +137,21 @@
                         placeholder="features"
                         v-model="fields.features"
                     ></textarea>
+                    <small
+                        v-if="validationError && validationError.features"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.features"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-5">
                     <div class="flex">
@@ -84,6 +170,19 @@
                             />
                         </div>
                     </div>
+                    <small
+                        v-if="validationError && validationError.images"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(error, index) in validationError.images"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
             </div>
 
@@ -105,7 +204,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onUpdated } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { useMutation, useQueryClient } from "vue-query";
@@ -135,10 +234,15 @@ export default {
             images: [],
         });
 
+        const validationError = ref(null);
+
         const { mutate, isLoading } = useMutation(addRent, {
             onSuccess: (data) => {
                 // Empty Cache to update UI
                 queryClient.invalidateQueries(["listing", user.value.id]);
+
+                // Clear Validation Errors
+                validationError.value = null;
 
                 // Empty Fields
                 fields.value = {
@@ -168,17 +272,27 @@ export default {
                     router.push(`/profiles/${user.value.id}`);
                 }
             },
-            onError: () => {
-                // Success message
-                Swal.fire({
-                    toast: true,
-                    icon: "error",
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    title: "An error occured, please try again later",
-                });
+            onError: (err) => {
+                // Error message
+
+                const status = err.response.status;
+                const validation = err.response.data.errors;
+
+                if (status == 422) {
+                    validationError.value = validation;
+                }
+
+                if (status !== 422) {
+                    Swal.fire({
+                        toast: true,
+                        icon: "error",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        title: "An error occured, please try again later",
+                    });
+                }
             },
         });
 
@@ -213,6 +327,7 @@ export default {
             onFileChange,
             onSubmit,
             isLoading,
+            validationError,
         };
     },
 };

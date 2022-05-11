@@ -37,9 +37,19 @@ const routes = [
         component: Rent,
     },
     {
+        path: "/rents/create",
+        name: "AddListing",
+        component: AddListing,
+    },
+    {
         path: "/rents/:id",
         name: "Land",
         component: Land,
+    },
+    {
+        path: "/rents/:id/edit",
+        name: "EditListing",
+        component: EditListing,
     },
     {
         path: "/profiles/:id",
@@ -50,16 +60,6 @@ const routes = [
         path: "/profiles/:id/edit",
         name: "EditProfile",
         component: EditProfile,
-    },
-    {
-        path: "/rent/create",
-        name: "AddListing",
-        component: AddListing,
-    },
-    {
-        path: "/rent/:id/edit",
-        name: "EditListing",
-        component: EditListing,
     },
 ];
 
