@@ -157,11 +157,12 @@ export default {
 
         // On Mount - Check if Authenticated
         onMounted(() => {
-            if (!localStorage.getItem("token")) {
+            if (!localStorage.getItem("token") || !user.value) {
                 router.push({ name: "Login" });
             }
 
-            if (user.value.id !== parseInt(id)) {
+            // Check If Owned Profile
+            if (user.value && user.value.id !== parseInt(id)) {
                 router.push({ name: "Profile", params: { id: user.value.id } });
             }
         });
