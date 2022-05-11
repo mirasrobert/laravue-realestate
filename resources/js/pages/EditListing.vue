@@ -67,6 +67,15 @@
                         v-model="fields.features"
                     ></textarea>
                 </div>
+                <div class="mb-5 flex">
+                    <label class="text-gray-700 mr-3">Is Sold</label>
+                    <input
+                        type="checkbox"
+                        class="mt-1 block px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        :checked="fields.is_sold"
+                        v-model="fields.is_sold"
+                    />
+                </div>
                 <div class="mb-5">
                     <div class="flex">
                         <div class="mb-3 w-full md:w-96">
@@ -110,7 +119,6 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { useQuery, useMutation, useQueryClient } from "vue-query";
 import { updateRent, fetchRent } from "../services/rentService";
-import { addRent } from "../services/rentService";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import Swal from "sweetalert2";
 
@@ -194,7 +202,7 @@ export default {
             formData.append("price", fields.value.price);
             formData.append("description", fields.value.description);
             formData.append("features", fields.value.features);
-            formData.append("is_sold", 0);
+            formData.append("is_sold", Boolean(fields.value.is_sold));
             formData.append("discount", fields.value.discount);
 
             // Append all the images on the FormData Object
