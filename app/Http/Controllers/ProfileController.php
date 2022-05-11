@@ -53,6 +53,16 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        $profile->user()->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
         $profile->update($request->validated());
 
         $profile->load(['user', 'image']);

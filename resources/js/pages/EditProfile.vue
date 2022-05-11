@@ -20,21 +20,54 @@
                         alt="avatar"
                     />
                     <div>
-                        <p class="text-2xl text-gray-800">
+                        <p class="text-sm font-medium">
                             <input
                                 type="text"
                                 class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                 placeholder="Your name"
                                 v-model="profileForm.user.name"
                             />
+                            <small
+                                v-if="validationError && validationError.name"
+                                class="text-pink-600 mb-1"
+                            >
+                                <ul class="list-none text-pink-600">
+                                    <li
+                                        v-for="(
+                                            error, index
+                                        ) in validationError.name"
+                                        :key="index"
+                                    >
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </small>
                         </p>
-                        <p class="text-base font-light">
+                        <p class="text-sm font-medium">
                             <input
                                 type="text"
                                 class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                 placeholder="Your profession"
                                 v-model="profileForm.profession"
                             />
+                            <small
+                                v-if="
+                                    validationError &&
+                                    validationError.profession
+                                "
+                                class="text-pink-600 mb-1"
+                            >
+                                <ul class="list-none text-pink-600">
+                                    <li
+                                        v-for="(
+                                            error, index
+                                        ) in validationError.profession"
+                                        :key="index"
+                                    >
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </small>
                         </p>
                         <p class="text-sm font-medium">
                             <input
@@ -43,6 +76,23 @@
                                 placeholder="Your company"
                                 v-model="profileForm.company"
                             />
+                            <small
+                                v-if="
+                                    validationError && validationError.company
+                                "
+                                class="text-pink-600 mb-1"
+                            >
+                                <ul class="list-none text-pink-600">
+                                    <li
+                                        v-for="(
+                                            error, index
+                                        ) in validationError.company"
+                                        :key="index"
+                                    >
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </small>
                         </p>
                     </div>
                 </div>
@@ -58,6 +108,21 @@
                         rows="3"
                         placeholder="Add here your self description..."
                     ></textarea>
+                    <small
+                        v-if="validationError && validationError.about_me"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.about_me"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </p>
             </div>
 
@@ -73,6 +138,21 @@
                         placeholder="Your phone number"
                         v-model="profileForm.mobile_number"
                     />
+                    <small
+                        v-if="validationError && validationError.mobile_number"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.mobile_number"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-3">
                     <p class="text-sm font-light">Email:</p>
@@ -82,6 +162,19 @@
                         placeholder="Your email address"
                         v-model="profileForm.user.email"
                     />
+                    <small
+                        v-if="validationError && validationError.email"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(error, index) in validationError.email"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
                 <div class="mb-3">
                     <span class="text-sm font-light">Speaks:</span> &nbsp;
@@ -92,6 +185,21 @@
                         placeholder="Your language"
                         v-model="profileForm.language"
                     />
+                    <small
+                        v-if="validationError && validationError.language"
+                        class="text-pink-600 mb-1"
+                    >
+                        <ul class="list-none text-pink-600">
+                            <li
+                                v-for="(
+                                    error, index
+                                ) in validationError.language"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </small>
                 </div>
             </div>
             <div>
@@ -134,6 +242,8 @@ export default {
 
         const user = computed(() => store.getters.user);
 
+        const validationError = ref(null);
+
         const { isLoading: isSaving, mutate } = useMutation(updateProfile, {
             onSuccess: () => {
                 queryClient.invalidateQueries(["profile", id]); // Delete Cache
@@ -150,6 +260,27 @@ export default {
                 });
 
                 router.push({ name: "Profile", params: { id } });
+            },
+            onError: (err) => {
+                // Error message
+                const status = err.response.status;
+                const validation = err.response.data.errors;
+
+                if (status == 422) {
+                    validationError.value = validation;
+                }
+
+                if (status !== 422) {
+                    Swal.fire({
+                        toast: true,
+                        icon: "error",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        title: "An error occured, please try again later",
+                    });
+                }
             },
         });
 
@@ -176,8 +307,6 @@ export default {
             user: {
                 name: "",
                 email: "",
-                password: "",
-                password_confirmation: "",
             },
             image: {
                 url: "",
@@ -202,6 +331,8 @@ export default {
             const fields = {
                 id,
                 formData: {
+                    name: profileForm.value.user.name,
+                    email: profileForm.value.user.email,
                     profession: profileForm.value.profession,
                     company: profileForm.value.company,
                     about_me: profileForm.value.about_me,
@@ -221,6 +352,7 @@ export default {
             id,
             onSubmit,
             isSaving,
+            validationError,
         };
     },
 };
