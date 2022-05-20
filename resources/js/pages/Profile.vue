@@ -91,14 +91,14 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { useQuery, useQueryClient } from "vue-query";
-import { fetchProfile, fetchProfileRents } from "../services/profileService";
 import RentCard from "../components/RentCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import useProfile from "../composables/profile.js"; // use composables
 
 export default {
     components: { RentCard, PulseLoader, ErrorMessage },
@@ -108,26 +108,55 @@ export default {
         const route = useRoute();
         const queryClient = useQueryClient();
 
-        const id = parseInt(route.params.id); // read parameter id (it is reactive)
+        const id = route.params.id; // read parameter id (it is reactive)
 
         const user = computed(() => store.getters.user);
 
+        // Using Composables
+        const {
+            profile,
+            profileIsLoading,
+            profileError,
+            getProfile,
+            getProfileRents,
+            rentsIsLoading,
+            rentError,
+            listing,
+        } = useProfile();
+
+        // fetch the user information when params change
+        watch(
+            () => route.params.id,
+            (newId) => {
+                if (newId) {
+                    getProfile(newId);
+                    getProfileRents(newId);
+                }
+            },
+            {
+                deep: true,
+                immediate: true,
+            }
+        );
+
+        /*
+         * USING VUE-QUERY LIBRARY
         const {
             error: profileError,
             data: profile,
             isLoading: profileIsLoading,
         } = useQuery(["profile", id], () => fetchProfile(id), {
             retry: 1,
-            cacheTime: 500, // 10 seconds
         });
+        
         const {
             error: rentError,
             data: listing,
             isLoading: rentsIsLoading,
         } = useQuery(["listing", id], () => fetchProfileRents(id), {
             retry: 1,
-            cacheTime: 500, // 10 seconds
         });
+        */
 
         return {
             profileError,
