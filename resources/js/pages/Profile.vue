@@ -1,9 +1,15 @@
 <template>
-    <div
+    <!-- <div
         v-if="profileIsLoading || rentsIsLoading"
         class="flex items-center justify-center min-h-screen w-full"
     >
         <pulse-loader color="#4338CA" size="30px"></pulse-loader>
+    </div> -->
+    <div
+        v-if="profileIsLoading || rentsIsLoading"
+        class="flex items-center justify-center min-h-screen w-full"
+    >
+        <profile-skeleton-loader />
     </div>
     <div v-else-if="profileError">
         <error-message :error="profileError" />
@@ -97,11 +103,17 @@ import { useRoute } from "vue-router";
 import { useQuery, useQueryClient } from "vue-query";
 import RentCard from "../components/RentCard.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import ProfileSkeletonLoader from "../components/ProfileSkeletonLoader.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import useProfile from "../composables/profile.js"; // use composables
 
 export default {
-    components: { RentCard, PulseLoader, ErrorMessage },
+    components: {
+        RentCard,
+        PulseLoader,
+        ErrorMessage,
+        ProfileSkeletonLoader,
+    },
     name: "Profile",
     setup() {
         const store = useStore();
