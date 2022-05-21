@@ -3,13 +3,19 @@
         <div class="block md:flex space-x-6 mt-12 mb-6">
             <div class="flex-auto w-full md:w-3/5 items-center">
                 <div class="flex items-center">
-                    <div class="w-1/6">
+                    <div class="mr-5 md:m-0 md:w-1/6">
                         <div class="bg-gray-300 rounded-full w-32 h-32"></div>
                     </div>
                     <div class="w-full">
-                        <div class="bg-gray-300 w-1/5 h-3 rounded mb-2"></div>
-                        <div class="bg-gray-300 w-1/6 h-3 rounded mb-2"></div>
-                        <div class="bg-gray-300 w-1/6 h-3 rounded mb-2"></div>
+                        <div
+                            class="bg-gray-300 w-1/2 md:w-1/5 h-3 rounded mb-2"
+                        ></div>
+                        <div
+                            class="bg-gray-300 w-1/2 md:w-1/6 h-3 rounded mb-2"
+                        ></div>
+                        <div
+                            class="bg-gray-300 w-1/2 md:w-1/6 h-3 rounded mb-2"
+                        ></div>
                     </div>
                 </div>
             </div>
