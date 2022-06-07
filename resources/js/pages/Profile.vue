@@ -77,7 +77,7 @@
         <div class="my-5">
             <div class="flex items-end mb-5">
                 <h5 class="block font-semibold text-2xl mr-3">Sale Listings</h5>
-                <div v-if="user && user.id === id">
+                <div v-if="user && user.id == id">
                     <router-link
                         class="text-blue-500 text-md hover:text-blue-400 focus:text-blue-600"
                         :to="{ name: 'AddListing' }"
